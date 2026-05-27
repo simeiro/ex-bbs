@@ -71,6 +71,15 @@ public class CommentRepository {
      * @param articleId 記事ID
      */
     public void deleteByArticleId(Long articleId) {
+        //language=sql
+        String sql = """
+                DELETE FROM comments
+                WHERE
+                    article_id = :article_id
+                """;
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("article_id", articleId);
 
+        template.update(sql, param);
     }
 }
