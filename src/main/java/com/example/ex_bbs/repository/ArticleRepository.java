@@ -54,9 +54,9 @@ public class ArticleRepository {
     public void insert(Article article) {
         //language=sql
         String sql = """
-                INSERT INTO articles(id, name, content)
+                INSERT INTO articles(name, content)
                 VALUES 
-                    (:id, :name, :content)
+                    (:name, :content)
                 """;
         SqlParameterSource param = new BeanPropertySqlParameterSource(article);
 
