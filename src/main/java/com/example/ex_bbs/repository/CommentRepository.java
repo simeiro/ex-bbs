@@ -4,7 +4,9 @@ import com.example.ex_bbs.domain.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import java.util.List;
 
@@ -25,8 +27,24 @@ public class CommentRepository {
      * @return　対応する記事IDのコメント一覧
      */
     public List<Comment> findByArticleId(Long articleId) {
-        //ORDER BY
-        return null;
+        //language=sql
+        String sql = """
+                SELECT
+                    id,
+                    name,
+                    content,
+                    article_id
+                FROM
+                    comments
+                WHERE
+                    article_id = :article_id
+                ORDER BY
+                    id
+                """;
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("article_id", articleId);
+
+        return template.query(sql, param, COMMENT_ROW_MAPPER);
     }
 
     /**
@@ -35,7 +53,6 @@ public class CommentRepository {
      * @param comment 追加するコメント
      */
     public void insert(Comment comment) {
-
     }
 
     /**
