@@ -67,7 +67,7 @@ public class ArticleRepository {
     };
 
     /**
-     * 記事情報一覧を取得する.
+     * 記事情報と記事に含まれるコメントの一覧を取得する.
      *
      * @return 記事情報一覧
      */
@@ -115,7 +115,7 @@ public class ArticleRepository {
     }
 
     /**
-     * 記事を削除する.
+     * 記事と記事に含まれるコメントを削除する.
      *
      * @param id 削除する記事ID
      */
@@ -128,7 +128,7 @@ public class ArticleRepository {
                 """;
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("id", id);
-
+        
         template.update(sql, param);
     }
 }

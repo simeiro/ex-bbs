@@ -10,7 +10,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -26,30 +29,58 @@ public class ArticleController {
     private CommentRepository commentRepository;
 
     /**
+     * 掲示板画面の表示に必要な記事情報一覧をModelへ追加する.
+     *
+     * @return 記事情報一覧
+     */
+    @ModelAttribute("articles")
+    public List<Article> setUpArticles() {
+        return articleRepository.findAll();
+    }
+
+    /**
+     * 空の記事投稿フォームをModelへ追加する
+     *
+     * @return 空の記事投稿フォーム
+     */
+    @ModelAttribute
+    public ArticleForm setUpArticleForm() {
+        return new ArticleForm();
+    }
+
+    /**
+     * 空のコメント投稿フォームをModelへ追加する
+     *
+     * @return 空のコメント投稿フォーム
+     */
+    @ModelAttribute
+    public CommentForm setUpCommentForm() {
+        return new CommentForm();
+    }
+
+    /**
      * 記事、コメント情報一覧を所得し、掲示板画面を表示する.
      *
-     * @param articleForm 記事のフォーム
-     * @param commentForm コメントのフォーム
      * @return 掲示板画面
      */
     @GetMapping("")
-    public String index(ArticleForm articleForm, CommentForm commentForm, Model model) {
-        //掲示板情報を全て取得し、表示させる
-        List<Article> articles = articleRepository.findAll();
-
-        model.addAttribute("articles", articles);
-
+    public String index() {
         return "article";
     }
 
     /**
      * 記事情報を追加し、掲示板画面へリダイレクトする.
      *
-     * @param articleForm 記事のフォーム
-     * @return　掲示板画面へリダイレクト
+     * @param articleForm 記事投稿フォーム
+     * @param result      エラーを確認するためのresult
+     * @return 掲示板画面
      */
     @PostMapping("insert-article")
-    public String insertArticle(ArticleForm articleForm) {
+    public String insertArticle(@Validated ArticleForm articleForm, BindingResult result) {
+        if (result.hasErrors()) {
+            return "article";
+        }
+
         Article article = new Article();
         BeanUtils.copyProperties(articleForm, article);
         articleRepository.insert(article);
@@ -60,11 +91,18 @@ public class ArticleController {
     /**
      * コメント情報を追加し、掲示板画面へリダイレクトする.
      *
-     * @param commentForm コメントフォーム
-     * @return 掲示板画面へリダイレクト
+     * @param commentForm コメント投稿フォーム
+     * @param result      エラーを確認するためのresult
+     * @return 掲示板画面
      */
     @PostMapping("insert-comment")
-    public String insertComment(CommentForm commentForm) {
+    public String insertComment(@Validated CommentForm commentForm, BindingResult result,
+                                Model model, Long articleId) {
+        if (result.hasErrors()) {
+            model.addAttribute("errorArticleId", articleId);
+            return "article";
+        }
+
         Comment comment = new Comment();
         BeanUtils.copyProperties(commentForm, comment);
         commentRepository.insert(comment);
@@ -80,7 +118,6 @@ public class ArticleController {
      */
     @PostMapping("delete-article")
     public String deleteArticle(Long id) {
-        commentRepository.deleteByArticleId(id);
         articleRepository.deleteById(id);
 
         return "redirect:/";

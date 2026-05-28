@@ -5,15 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * commentsテーブルを操作するリポジトリ.
  */
 @Repository
+@Transactional
 public class CommentRepository {
 
     @Autowired
@@ -34,24 +35,6 @@ public class CommentRepository {
                     (:name, :content, :articleId)
                 """;
         SqlParameterSource param = new BeanPropertySqlParameterSource(comment);
-
-        template.update(sql, param);
-    }
-
-    /**
-     * 対応する記事のコメントを全て削除する.
-     *
-     * @param articleId 記事ID
-     */
-    public void deleteByArticleId(Long articleId) {
-        //language=sql
-        String sql = """
-                DELETE FROM comments
-                WHERE
-                    article_id = :articleId
-                """;
-        SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("articleId", articleId);
 
         template.update(sql, param);
     }
