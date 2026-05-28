@@ -12,11 +12,12 @@
     <button>記事投稿</button>
 </form>
 
-<form th:action="@{/delete-article}" th:each="article : ${application.articles}" th:object="${articleForm}"
-      method="post">
+<div th:each="article : ${application.articles}" th:object="${articleForm}">
     <p>投稿者名： <span th:text="${article.name}"></span></p>
     <p>投稿内容： <span th:text="${article.content}"></span></p>
-    <button>記事削除</button>
-</form>
+    <form th:action="@{/delete-article}">
+        <button>記事削除</button>
+    </form>
+</div>
 </body>
 </html>
