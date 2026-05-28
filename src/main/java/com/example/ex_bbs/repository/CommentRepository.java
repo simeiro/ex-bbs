@@ -40,12 +40,12 @@ public class CommentRepository {
                 FROM
                     comments
                 WHERE
-                    article_id = :article_id
+                    article_id = :articleId
                 ORDER BY
                     id DESC 
                 """;
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("article_id", articleId);
+                .addValue("articleId", articleId);
 
         return template.query(sql, param, COMMENT_ROW_MAPPER);
     }
