@@ -2,6 +2,7 @@ package com.example.ex_bbs.controller;
 
 import com.example.ex_bbs.domain.Article;
 import com.example.ex_bbs.form.ArticleForm;
+import com.example.ex_bbs.form.CommentForm;
 import com.example.ex_bbs.repository.ArticleRepository;
 import jakarta.servlet.ServletContext;
 import org.springframework.beans.BeanUtils;
@@ -26,7 +27,8 @@ public class ArticleController {
      * @return
      */
     @GetMapping("")
-    public String index(ArticleForm articleForm) {
+    public String index(ArticleForm articleForm, CommentForm commentForm) {
+        application.setAttribute("articles", articleRepository.findAll());
         return "article";
     }
 
@@ -41,7 +43,9 @@ public class ArticleController {
         articleRepository.insert(article);
         application.setAttribute("articles", articleRepository.findAll());
 
-        return "article";
+        //CommentForm　はこのメソッドではModelAttributeされない
+        //そのためためリダイレクトを行い、ModelAttributeさせる
+        return "redirect:/";
     }
 
     /**

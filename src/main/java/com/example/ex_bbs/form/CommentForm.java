@@ -22,5 +22,5 @@ public class CommentForm {
     /**
      * コメント内容.
      */
-    private String comment;
+    private String content;
 }
