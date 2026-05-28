@@ -14,7 +14,7 @@ public class CommentForm {
     /**
      * 対応する記事のID
      */
-    private Long id;
+    private Long articleId;
     /**
      * 名前.
      */

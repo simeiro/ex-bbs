@@ -1,6 +1,7 @@
 package com.example.ex_bbs.controller;
 
 import com.example.ex_bbs.domain.Article;
+import com.example.ex_bbs.domain.Comment;
 import com.example.ex_bbs.form.ArticleForm;
 import com.example.ex_bbs.form.CommentForm;
 import com.example.ex_bbs.repository.ArticleRepository;
@@ -63,8 +64,12 @@ public class ArticleController {
      * @return
      */
     @PostMapping("insert-comment")
-    public String insertComment() {
-        return "article";
+    public String insertComment(CommentForm commentForm) {
+        Comment comment = new Comment();
+        BeanUtils.copyProperties(commentForm, comment);
+        commentRepository.insert(comment);
+
+        return "redirect:/";
     }
 
     /**
@@ -72,7 +77,10 @@ public class ArticleController {
      * @return
      */
     @PostMapping("delete-article")
-    public String deleteArticle() {
-        return "article";
+    public String deleteArticle(Long id) {
+        commentRepository.deleteByArticleId(id);
+        articleRepository.deleteById(id);
+        
+        return "redirect:/";
     }
 }

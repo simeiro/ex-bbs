@@ -58,9 +58,9 @@ public class CommentRepository {
     public void insert(Comment comment) {
         //language=sql
         String sql = """
-                INSERT INTO comments(id, name, content, article_id)
+                INSERT INTO comments(name, content, article_id)
                 VALUES 
-                    (:id, :name, :content, :article_id)
+                    (:name, :content, :articleId)
                 """;
         SqlParameterSource param = new BeanPropertySqlParameterSource(comment);
 
@@ -77,10 +77,10 @@ public class CommentRepository {
         String sql = """
                 DELETE FROM comments
                 WHERE
-                    article_id = :article_id
+                    article_id = :articleId
                 """;
         SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("article_id", articleId);
+                .addValue("articleId", articleId);
 
         template.update(sql, param);
     }
