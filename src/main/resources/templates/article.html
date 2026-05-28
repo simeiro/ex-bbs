@@ -7,10 +7,13 @@
 <body>
 
 <form th:action="@{/insert-article}" th:object="${articleForm}" method="post">
-    投稿者名:<input type="text" th:field="*{name}"><br>
-    投稿内容:<input type="text" th:field="*{content}"><br>
+    <p>投稿者名:</p>
+    <input type="text" th:field="*{name}"><br>
+    <p>投稿内容:</p>
+    <textarea th:field="*{content}" cols="30" rows="10"></textarea><br>
     <button>記事投稿</button>
 </form>
+<hr>
 
 <div th:each="article : ${application.articles}" th:object="${articleForm}">
     <p>投稿者名： <span th:text="${article.name}"></span></p>
@@ -26,9 +29,10 @@
         <p>名前：</p>
         <input type="text" th:field="*{name}"><br>
         <p>コメント：</p>
-        <textarea th:field="*{content}" cols="30" rows="10"></textarea>
+        <textarea th:field="*{content}" cols="30" rows="10"></textarea><br>
         <button>コメント投稿</button>
     </form>
+    <hr>
 </div>
 </body>
 </html>
