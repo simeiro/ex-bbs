@@ -29,8 +29,11 @@ public class ArticleController {
     private CommentRepository commentRepository;
 
     /**
+     * 記事、コメント情報一覧を所得し、掲示板画面を表示する.
      *
-     * @return
+     * @param articleForm 記事のフォーム
+     * @param commentForm コメントのフォーム
+     * @return 掲示板画面
      */
     @GetMapping("")
     public String index(ArticleForm articleForm, CommentForm commentForm) {
@@ -45,8 +48,10 @@ public class ArticleController {
     }
 
     /**
+     * 記事情報を追加し、掲示板画面へリダイレクトする.
      *
-     * @return
+     * @param articleForm 記事のフォーム
+     * @return　掲示板画面へリダイレクト
      */
     @PostMapping("insert-article")
     public String insertArticle(ArticleForm articleForm) {
@@ -60,8 +65,10 @@ public class ArticleController {
     }
 
     /**
+     * コメント情報を追加し、掲示板画面へリダイレクトする.
      *
-     * @return
+     * @param commentForm コメントフォーム
+     * @return 掲示板画面へリダイレクト
      */
     @PostMapping("insert-comment")
     public String insertComment(CommentForm commentForm) {
@@ -73,14 +80,15 @@ public class ArticleController {
     }
 
     /**
-     *
-     * @return
+     * 記事とその記事にあるコメントを削除し、掲示板画面へリダイレクトする.
+     * @param id 記事ID
+     * @return　掲示板画面へリダイレクト
      */
     @PostMapping("delete-article")
     public String deleteArticle(Long id) {
         commentRepository.deleteByArticleId(id);
         articleRepository.deleteById(id);
-        
+
         return "redirect:/";
     }
 }
