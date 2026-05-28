@@ -42,7 +42,7 @@ public class CommentRepository {
                 WHERE
                     article_id = :article_id
                 ORDER BY
-                    id
+                    id DESC 
                 """;
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("article_id", articleId);

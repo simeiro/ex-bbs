@@ -40,7 +40,7 @@ public class ArticleRepository {
                 FROM
                     articles
                 ORDER BY 
-                    id
+                    id DESC 
                 """;
 
         return template.query(sql, ARTICLE_ROW_MAPPER);
