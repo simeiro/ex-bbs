@@ -34,7 +34,7 @@ public class ArticleController {
      */
     @ModelAttribute("articles")
     public List<Article> setUpArticles() {
-        return articleRepository.findAll();
+        return articleRepository.findAllByOrderByDesc();
     }
 
     /**
@@ -82,7 +82,7 @@ public class ArticleController {
 
         Article article = new Article();
         BeanUtils.copyProperties(articleForm, article);
-        articleRepository.insert(article);
+        articleRepository.save(article);
 
         return "redirect:/";
     }
@@ -102,7 +102,7 @@ public class ArticleController {
 
         Comment comment = new Comment();
         BeanUtils.copyProperties(commentForm, comment);
-        commentRepository.insert(comment);
+        commentRepository.save(comment);
 
         return "redirect:/";
     }

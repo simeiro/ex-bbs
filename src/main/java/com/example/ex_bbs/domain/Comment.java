@@ -1,13 +1,15 @@
 package com.example.ex_bbs.domain;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 /**
  * commentsテーブルのドメイン.
  */
+@Entity
+@Table(name = "comments")
 @Getter
 @Setter
-@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,6 +17,8 @@ public class Comment {
     /**
      * ID.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     /**
      * 名前.
@@ -27,5 +31,6 @@ public class Comment {
     /**
      * 対応する記事のID.
      */
+    @Column(name = "article_id")
     private Long articleId;
 }
