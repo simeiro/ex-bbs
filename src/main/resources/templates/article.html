@@ -29,8 +29,8 @@
         <p>コメント内容： <span th:text="${comment.content}"></span></p>
     </div>
     <form th:action="@{/insert-comment}" th:object="${commentForm}" method="post">
-        <p th:if="${errorArticleId == article.id}" th:errors="${commentForm.name}" style="color: red"></p>
-        <p th:if="${errorArticleId == article.id}" th:errors="${commentForm.content}" style="color: red"></p>
+        <p th:if="${commentForm.articleId == article.id}" th:errors="${commentForm.name}" style="color: red"></p>
+        <p th:if="${commentForm.articleId == article.id}" th:errors="${commentForm.content}" style="color: red"></p>
         <input type="hidden" th:value="${article.id}" name="articleId">
         <p>名前：</p>
         <input type="text" th:field="*{name}"><br>

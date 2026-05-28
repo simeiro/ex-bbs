@@ -9,7 +9,6 @@ import com.example.ex_bbs.repository.CommentRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -93,15 +92,11 @@ public class ArticleController {
      *
      * @param commentForm コメント投稿フォーム
      * @param result      エラーを確認するためのresult
-     * @param model       requestスコープ
-     * @param articleId   記事ID
      * @return 掲示板画面
      */
     @PostMapping("insert-comment")
-    public String insertComment(@Validated CommentForm commentForm, BindingResult result,
-                                Model model, Long articleId) {
+    public String insertComment(@Validated CommentForm commentForm, BindingResult result) {
         if (result.hasErrors()) {
-            model.addAttribute("errorArticleId", articleId);
             return "article";
         }
 
