@@ -39,7 +39,7 @@ public class ArticleController {
     }
 
     /**
-     * 空の記事投稿フォームをModelへ追加する
+     * 空の記事投稿フォームをModelへ追加する.
      *
      * @return 空の記事投稿フォーム
      */
@@ -49,7 +49,7 @@ public class ArticleController {
     }
 
     /**
-     * 空のコメント投稿フォームをModelへ追加する
+     * 空のコメント投稿フォームをModelへ追加する.
      *
      * @return 空のコメント投稿フォーム
      */
@@ -93,6 +93,8 @@ public class ArticleController {
      *
      * @param commentForm コメント投稿フォーム
      * @param result      エラーを確認するためのresult
+     * @param model       requestスコープ
+     * @param articleId   記事ID
      * @return 掲示板画面
      */
     @PostMapping("insert-comment")

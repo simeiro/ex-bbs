@@ -28,8 +28,6 @@ public class ArticleRepository {
     @Autowired
     private NamedParameterJdbcTemplate template;
 
-    private static final RowMapper<Article> ARTICLE_ROW_MAPPER = new BeanPropertyRowMapper<>(Article.class);
-
     private static final ResultSetExtractor<List<Article>> ARTICLE_WITH_COMMENTS_EXTRACTOR = rs -> {
         Map<Long, Article> map = new LinkedHashMap<>();
 
@@ -128,7 +126,7 @@ public class ArticleRepository {
                 """;
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("id", id);
-        
+
         template.update(sql, param);
     }
 }
