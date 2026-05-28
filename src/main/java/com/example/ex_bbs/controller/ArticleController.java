@@ -6,10 +6,10 @@ import com.example.ex_bbs.form.ArticleForm;
 import com.example.ex_bbs.form.CommentForm;
 import com.example.ex_bbs.repository.ArticleRepository;
 import com.example.ex_bbs.repository.CommentRepository;
-import jakarta.servlet.ServletContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -20,9 +20,6 @@ import java.util.List;
  */
 @Controller
 public class ArticleController {
-
-    @Autowired
-    private ServletContext application;
     @Autowired
     private ArticleRepository articleRepository;
     @Autowired
@@ -36,13 +33,14 @@ public class ArticleController {
      * @return 掲示板画面
      */
     @GetMapping("")
-    public String index(ArticleForm articleForm, CommentForm commentForm) {
+    public String index(ArticleForm articleForm, CommentForm commentForm, Model model) {
         //掲示板情報を全て取得し、表示させる
         List<Article> articles = articleRepository.findAll();
         for (Article article : articles) {
             article.setCommentList(commentRepository.findByArticleId(article.getId()));
         }
-        application.setAttribute("articles", articles);
+
+        model.addAttribute("articles", articles);
 
         return "article";
     }
@@ -81,6 +79,7 @@ public class ArticleController {
 
     /**
      * 記事とその記事にあるコメントを削除し、掲示板画面へリダイレクトする.
+     *
      * @param id 記事ID
      * @return　掲示板画面へリダイレクト
      */

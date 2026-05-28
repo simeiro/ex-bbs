@@ -15,7 +15,7 @@
 </form>
 <hr>
 
-<div th:each="article : ${application.articles}" th:object="${articleForm}">
+<div th:each="article : ${articles}" th:object="${articleForm}">
     <p>投稿者名： <span th:text="${article.name}"></span></p>
     <p>投稿内容： <span th:text="${article.content}"></span></p>
     <form th:action="@{/delete-article}" method="post">
