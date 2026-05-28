@@ -4,12 +4,15 @@ import com.example.ex_bbs.domain.Article;
 import com.example.ex_bbs.form.ArticleForm;
 import com.example.ex_bbs.form.CommentForm;
 import com.example.ex_bbs.repository.ArticleRepository;
+import com.example.ex_bbs.repository.CommentRepository;
 import jakarta.servlet.ServletContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 /**
  * 記事画面を操作するコントローラー.
@@ -21,6 +24,8 @@ public class ArticleController {
     private ServletContext application;
     @Autowired
     private ArticleRepository articleRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
     /**
      *
@@ -28,7 +33,13 @@ public class ArticleController {
      */
     @GetMapping("")
     public String index(ArticleForm articleForm, CommentForm commentForm) {
-        application.setAttribute("articles", articleRepository.findAll());
+        //掲示板情報を全て取得し、表示させる
+        List<Article> articles = articleRepository.findAll();
+        for (Article article : articles) {
+            article.setCommentList(commentRepository.findByArticleId(article.getId()));
+        }
+        application.setAttribute("articles", articles);
+
         return "article";
     }
 
@@ -41,7 +52,6 @@ public class ArticleController {
         Article article = new Article();
         BeanUtils.copyProperties(articleForm, article);
         articleRepository.insert(article);
-        application.setAttribute("articles", articleRepository.findAll());
 
         //CommentForm　はこのメソッドではModelAttributeされない
         //そのためためリダイレクトを行い、ModelAttributeさせる
