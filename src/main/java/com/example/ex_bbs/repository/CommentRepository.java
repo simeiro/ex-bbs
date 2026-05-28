@@ -10,8 +10,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * commentsテーブルを操作するリポジトリ.
  */
@@ -22,33 +20,6 @@ public class CommentRepository {
     private NamedParameterJdbcTemplate template;
 
     private static final RowMapper<Comment> COMMENT_ROW_MAPPER = new BeanPropertyRowMapper<>(Comment.class);
-
-    /**
-     * 対応する記事IDのコメント一覧を取得する.
-     *
-     * @param articleId 記事ID
-     * @return　対応する記事IDのコメント一覧
-     */
-    public List<Comment> findByArticleId(Long articleId) {
-        //language=sql
-        String sql = """
-                SELECT
-                    id,
-                    name,
-                    content,
-                    article_id
-                FROM
-                    comments
-                WHERE
-                    article_id = :articleId
-                ORDER BY
-                    id DESC 
-                """;
-        SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("articleId", articleId);
-
-        return template.query(sql, param, COMMENT_ROW_MAPPER);
-    }
 
     /**
      * コメントを追加する.

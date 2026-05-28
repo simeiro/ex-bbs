@@ -1,8 +1,6 @@
 package com.example.ex_bbs.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * commentsテーブルのドメイン.
@@ -10,6 +8,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Comment {
     /**
      * ID.

@@ -36,9 +36,6 @@ public class ArticleController {
     public String index(ArticleForm articleForm, CommentForm commentForm, Model model) {
         //掲示板情報を全て取得し、表示させる
         List<Article> articles = articleRepository.findAll();
-        for (Article article : articles) {
-            article.setCommentList(commentRepository.findByArticleId(article.getId()));
-        }
 
         model.addAttribute("articles", articles);
 
@@ -57,8 +54,6 @@ public class ArticleController {
         BeanUtils.copyProperties(articleForm, article);
         articleRepository.insert(article);
 
-        //CommentForm　はこのメソッドではModelAttributeされない
-        //そのためためリダイレクトを行い、ModelAttributeさせる
         return "redirect:/";
     }
 
